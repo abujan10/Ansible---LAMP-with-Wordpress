@@ -1,0 +1,4 @@
+---
+- include_tasks: httpd.yml 
+- include_tasks: mariadb.yml
+- include_tasks: wordpress.yml

@@ -1,0 +1,39 @@
+- name: "WordPress - Downloading"
+  get_url:
+    url: "{{ wordpress_url }}"
+    dest: /tmp/wordpress.tar.gz
+        
+
+- name: "Wordpress - Exracting"
+  unarchive:
+    src: /tmp/wordpress.tar.gz
+    dest: /tmp/
+    remote_src: true
+        
+- name: "Wordpress - Copying Contents To Documentroot"
+  copy:
+    src: /tmp/wordpress/
+    dest: "/var/www/html/{{ domain }}"
+    remote_src: true
+        
+- name: "Wordpress - wp-config.php generation"
+  template:
+    src: wp-config.php.tmpl
+    dest: "/var/www/html/{{ domain }}/wp-config.php"
+    
+- name: "Post-Installation - Restart"
+  service:
+    name: "{{ item }}"
+    state: restarted
+    enabled: true
+  with_items:
+    - httpd
+    - mariadb
+    
+- name: "Post-Installation - CleanUp"
+  file:
+    path: "{{ item }}"
+    state: absent
+  with_items:
+    - /tmp/wordpress.tar.gz
+    - /tmp/wordpress  

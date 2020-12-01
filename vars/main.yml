@@ -1,0 +1,10 @@
+---
+# vars file for LAMP
+
+httpd_port: 8080
+domain: "www.lamp.com"
+mysql_root: "mysqlroot123"
+mysql_user: "wpser"
+mysql_password: "wpuser123"
+mysql_database: "wordpress"
+wordpress_url: "https://wordpress.org/wordpress-4.9.tar.gz"    
